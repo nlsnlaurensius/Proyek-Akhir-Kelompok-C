@@ -113,6 +113,7 @@ void Regis(const char *filename, Akun *akun){
     strcpy(akun->password,passwordInput);
     akun->point = 10;
 }
+void MenuLogin(Akun *akun);
 
 //function untuk Regis
 void Login(Akun *akun, const char *filename){
@@ -132,19 +133,23 @@ void Login(Akun *akun, const char *filename){
 
     while (fscanf(fptr, "%s %s %d", namaDatabase ,passwordDatabase, &pointDatabase)!=EOF)
     {
-        if((strcmp(namaDatabase, namaInput) == 0)&&(strcmp(passwordDatabase, passwordInput)==0)){
+        if((strcmp(namaDatabase, namaInput) == 0)&&(strcmp(passwordDatabase, passwordInput)== 0)){
             strcpy(akun->nama,namaInput);
             strcpy(akun->password,passwordInput);
             akun->point = pointDatabase;
             valid = 1;
+            break;
         }
     }
     fclose(fptr);
-
     if (valid == 0)
     {
-        printf("Nama yang Anda Masukkan Salah, Harap daftarkan akun anda");
+        printf("Nama yang Anda Masukkan Salah, Harap daftarkan akun anda\n");
+        system("pause");
+        system("cls");
+        MenuLogin(akun);
     }
+
     
 }
 
@@ -227,4 +232,46 @@ void profil(Akun akun){
     printf("Password: %s\n",akun.password);
     printf("Point\t: %d\n",akun.point);
     system("pause");
+}
+
+void Perkalian(){
+    int bil1, bil2, t1, t2, i = 0, sum = 0;
+
+    do
+    {
+        if (i > 0)
+        {
+            printf("Maaf Kedua Angka yang Anda Masukkan kurang dari 1000\n");
+            system("pause");
+        }
+        system("cls");
+
+        printf("\n======================================================\n");
+        printf("||                  Perkalian 1000                    ||");
+        printf("\n======================================================\n");
+        printf("Masukkan bilangan Pertama: ");
+        scanf("%d",&bil1);
+        printf("Masukkan bilangan Kedua: ");
+        scanf("%d",&bil2);
+        i++;
+    } while (bil1 < 1000 && bil2 < 1000);
+
+    t1 = omp_get_wtime();
+    #pragma omp parallel private(i)
+    {
+        #pragma omp for reduction (+: sum)
+        for (i = 0; i < bil2; i++){sum += bil1;}
+    }
+    t2 = omp_get_wtime();
+    printf("jumlah = %d. durasi = %f\n", sum , t2-t1);   
+            
+
+}
+
+void updatePoint(const char *filename, Akun *akun) {
+    FILE *file = fopen(filename, "w");
+
+    fprintf(file, "%s %s %d\n", akun->nama,akun->password, akun->point);
+
+    fclose(file);
 }

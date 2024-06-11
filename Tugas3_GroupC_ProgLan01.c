@@ -11,48 +11,7 @@
 #include <stdlib.h>
 #include "Tugas3_GroupC_ProgLan01.h"
 
-void Perkalian(){
-    int bil1, bil2, t1, t2, i = 0, sum = 0;
-    
 
-    do
-    {
-        if (i > 0)
-        {
-            printf("Maaf Kedua Angka yang Anda Masukkan kurang dari 1000\n");
-            system("pause");
-        }
-        system("cls");
-
-        printf("\n======================================================\n");
-        printf("||                  Perkalian 1000                    ||");
-        printf("\n======================================================\n");
-        printf("Masukkan bilangan Pertama: ");
-        scanf("%d",&bil1);
-        printf("Masukkan bilangan Kedua: ");
-        scanf("%d",&bil2);
-        i++;
-    } while (bil1 < 1000 && bil2 < 1000);
-
-    t1 = omp_get_wtime();
-    #pragma omp parallel private(i)
-    {
-        #pragma omp for reduction (+: sum)
-        for (i = 0; i < bil2; i++){sum += bil1;}
-    }
-    t2 = omp_get_wtime();
-    printf("jumlah = %d. durasi = %f\n", sum , t2-t1);   
-            
-
-}
-
-void updatePoint(const char *filename, Akun *akun) {
-    FILE *file = fopen(filename, "w");
-
-    fprintf(file, "%s %s %d\n", akun->nama,akun->password, akun->point);
-
-    fclose(file);
-}
 
 int main(){
     int input, pilihan, valid = 0, urutValid;
