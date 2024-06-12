@@ -27,8 +27,7 @@ void showMenu(Akun *akun);
 int main() {
     Akun *akun = (Akun*)malloc(sizeof(Akun));
     for (int i = 0; i < 3; i++) {
-        printf(ANSI_COLOR_GREEN"\n====================Sesi Gratis %d====================\n"ANSI_COLOR_RESET, i + 1);
-        konversiSuhu();
+        konversiSuhu(i);
         system("pause");
         system("cls");
     }
@@ -85,7 +84,8 @@ void showMenu(Akun *akun) {
             printf(ANSI_COLOR_RED"Silahkan Kembali Ke Menu Utama Karena Point Anda Tidak Mencukupi\n"ANSI_COLOR_RESET);
             system("pause");
         } else {
-            konversiSuhu();
+            int i = 10;
+            konversiSuhu(i);
             akun->point--;
             system("pause");
             system("cls");

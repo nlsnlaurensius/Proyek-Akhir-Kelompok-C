@@ -24,7 +24,7 @@ typedef struct {
 #define ANSI_COLOR_CYAN    "\x1b[36m"
 #define ANSI_COLOR_RESET   "\x1b[0m"
 
-void konversiSuhu() {
+void konversiSuhu(int i) {
     int pilihan1 = 0, pilihan2 = 0;
     float suhuAwal, suhuAkhir;
     Suhu suhu[4];
@@ -49,6 +49,11 @@ void konversiSuhu() {
 
     while (1) {
         system("cls");
+        if (i<3)
+        {
+            printf(ANSI_COLOR_GREEN "\n====================Sesi Gratis %d=====================\n"ANSI_COLOR_RESET, i + 1);
+        }
+
         printf(ANSI_COLOR_BLUE "=======================================================\n" ANSI_COLOR_RESET);
         printf(ANSI_COLOR_BLUE "||                Satuan Awal Suhu                   ||\n" ANSI_COLOR_RESET);
         printf(ANSI_COLOR_BLUE "=======================================================\n" ANSI_COLOR_RESET);
@@ -76,8 +81,13 @@ void konversiSuhu() {
     current_selection = 0;
     while (1) {
         system("cls");
+        if (i<3)
+        {
+            printf(ANSI_COLOR_GREEN "\n====================Sesi Gratis %d=====================\n"ANSI_COLOR_RESET, i + 1);
+        }
+        
         printf(ANSI_COLOR_MAGENTA "=======================================================\n" ANSI_COLOR_RESET);
-        printf(ANSI_COLOR_MAGENTA "||                Satuan Awal Suhu                   ||\n" ANSI_COLOR_RESET);
+        printf(ANSI_COLOR_MAGENTA "||                Satuan AKhir Suhu                   ||\n" ANSI_COLOR_RESET);
         printf(ANSI_COLOR_MAGENTA "=======================================================\n" ANSI_COLOR_RESET);
         for (int i = 0; i < 4; i++) {
             if (i == current_selection) {
@@ -136,7 +146,7 @@ void Regis(const char *filename, Akun *akun) {
     fprintf(fptr, "%s %s %d\n", namaInput, passwordInput, 10);
     fclose(fptr);
     strcpy(akun->nama, namaInput);
-    strcpy(akun->password, namaInput);
+    strcpy(akun->password, passwordInput);
     akun->point = 10;
 }
 void MenuLogin(Akun *akun);
@@ -313,7 +323,7 @@ void Perkalian() {
 }
 
 void updatePoint(const char *filename, Akun *akun) {
-    FILE *file = fopen(filename, "w");
+    FILE *file = fopen(filename, "a");
 
     fprintf(file, "%s %s %d\n", akun->nama, akun->password, akun->point);
 
