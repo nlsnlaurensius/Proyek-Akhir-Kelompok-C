@@ -348,14 +348,6 @@ void Perkalian() {
     printf("jumlah = %d \ndurasi = %f\n", sum, t2 - t1);
 }
 
-//buat agar update poin menimpa data akun yang lama di akun.txt sehingga tidak terjadi duplikat
-// void updatePoint(const char *filename, Akun *akun) {
-//     FILE *file = fopen(filename, "w");
-
-//     fprintf(file, "%s %s %d\n", akun->nama, akun->password, akun->point);
-
-//     fclose(file);
-// }
 void updatePoint(const char *filename, Akun *akun) {
     FILE *inputFile = fopen(filename, "r");
     if (inputFile == NULL) {
