@@ -9,7 +9,7 @@
 - **Syahmi Hamdani** (2306220532)
 
 ## Deskripsi Proyek
-Proyek akhir ini mencakup dua tugas utama:
+Proyek akhir ini mencakup beberapa tugas utama:
 1. **Konverter Suhu**
 2. **Pengali 2 Bilangan**
 3. **Membuat Akun Baru**
