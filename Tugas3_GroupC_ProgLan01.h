@@ -24,6 +24,28 @@ typedef struct {
 #define ANSI_COLOR_CYAN    "\x1b[36m"
 #define ANSI_COLOR_RESET   "\x1b[0m"
 
+void guideMenu(){
+    system("cls");
+    printf(ANSI_COLOR_BLUE "=============================================================\n" ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_BLUE "||             " ANSI_COLOR_MAGENTA "PROYEK AKHIR PROGLAN KELOMPOK C" ANSI_COLOR_BLUE "             ||\n" ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_BLUE "||               " ANSI_COLOR_MAGENTA "Panduan Penggunaan Program" ANSI_COLOR_BLUE "                ||\n" ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_BLUE "=============================================================\n" ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_YELLOW "1. Program memiliki fitur utama untuk mengkonversi suhu\n" ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_YELLOW "2. Program memiliki fitur tambahan lainnya yaitu perkalian\n" ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_YELLOW "   angka 1000 ke atas\n" ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_YELLOW "3. User akan diberikan trial konversi suhu sebanyak 3 kali,\n" ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_YELLOW "   dan setelahnya user harus mendaftarkan atau login akun\n" ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_YELLOW "   untuk melakukan konversi suhu\n" ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_YELLOW "4. Setiap kali user membuat akun, user akan mendapatkan 10\n" ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_YELLOW "   point atau 10 kesempatan untuk menggunakan konversi suhu\n" ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_YELLOW "5. User dapat membuat dan menukarkan voucher, satu kode\n" ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_YELLOW "   voucher dapat ditukarkan dengan 10 point\n" ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_YELLOW "6. Selamat menggunakan aplikasi kami !!!\n" ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_BLUE "=============================================================\n" ANSI_COLOR_RESET);
+    printf("\nTekan tombol apa saja untuk kembali ke menu utama...");
+    _getch();
+}
+
 void konversiSuhu(int i) {
     int pilihan1 = 0, pilihan2 = 0;
     float suhuAwal, suhuAkhir;
@@ -51,7 +73,7 @@ void konversiSuhu(int i) {
         system("cls");
         if (i<3)
         {
-            printf(ANSI_COLOR_GREEN "\n====================Sesi Gratis %d=====================\n"ANSI_COLOR_RESET, i + 1);
+            printf(ANSI_COLOR_GREEN "\n==================== Sesi Gratis %d ====================\n"ANSI_COLOR_RESET, i + 1);
         }
 
         printf(ANSI_COLOR_BLUE "=======================================================\n" ANSI_COLOR_RESET);
@@ -83,11 +105,11 @@ void konversiSuhu(int i) {
         system("cls");
         if (i<3)
         {
-            printf(ANSI_COLOR_GREEN "\n====================Sesi Gratis %d=====================\n"ANSI_COLOR_RESET, i + 1);
+            printf(ANSI_COLOR_GREEN "\n==================== Sesi Gratis %d ====================\n"ANSI_COLOR_RESET, i + 1);
         }
         
         printf(ANSI_COLOR_MAGENTA "=======================================================\n" ANSI_COLOR_RESET);
-        printf(ANSI_COLOR_MAGENTA "||                Satuan AKhir Suhu                   ||\n" ANSI_COLOR_RESET);
+        printf(ANSI_COLOR_MAGENTA "||                Satuan AKhir Suhu                  ||\n" ANSI_COLOR_RESET);
         printf(ANSI_COLOR_MAGENTA "=======================================================\n" ANSI_COLOR_RESET);
         for (int i = 0; i < 4; i++) {
             if (i == current_selection) {
@@ -110,7 +132,7 @@ void konversiSuhu(int i) {
         }
     }
 
-    printf("Masukkan Suhu Awal: ");
+    printf("\nMasukkan Suhu Awal: ");
     scanf("%f", &suhuAwal);
 
     suhuAkhir = (suhuAwal - suhu[pilihan1 - 1].suhuAwal) * suhu[pilihan2 - 1].Ratio / suhu[pilihan1 - 1].Ratio + suhu[pilihan2 - 1].suhuAwal;
@@ -120,11 +142,12 @@ void konversiSuhu(int i) {
 
 void Regis(const char *filename, Akun *akun) {
     FILE *fptr;
-    fptr = fopen(filename, "a");
-    int valid = 0, pointDatabase;
+    fptr = fopen(filename, "r");
+    int valid, pointDatabase;
     char namaInput[100], passwordInput[100], namaDatabase[100], passwordDatabase[100];
 
     do {
+        valid = 0;
         printf(ANSI_COLOR_YELLOW"\n=======================================================\n"ANSI_COLOR_RESET);
         printf(ANSI_COLOR_YELLOW"||"ANSI_COLOR_RESET);
         printf(ANSI_COLOR_RED"   Registration Mode (Hanya satu kata perisian)    "ANSI_COLOR_RESET);
@@ -137,10 +160,14 @@ void Regis(const char *filename, Akun *akun) {
 
         while (fscanf(fptr, "%s %s %d", namaDatabase, passwordDatabase, &pointDatabase) != EOF) {
             if ((strcmp(namaDatabase, namaInput) == 0) && (strcmp(passwordDatabase, passwordInput) == 0)) {
-                printf(ANSI_COLOR_RED"Username dan Password yang anda masukkan sudah digunakan. Mohon masukkan yang lain."ANSI_COLOR_RESET);
+                printf(ANSI_COLOR_RED"Username dan Password yang anda masukkan sudah digunakan. Mohon masukkan yang lain.\n"ANSI_COLOR_RESET);
                 valid = 1;
+                system("pause");
+                system("cls");
+                break;
             }
         }
+
     } while (valid == 1);
 
     fprintf(fptr, "%s %s %d\n", namaInput, passwordInput, 10);
@@ -148,6 +175,9 @@ void Regis(const char *filename, Akun *akun) {
     strcpy(akun->nama, namaInput);
     strcpy(akun->password, passwordInput);
     akun->point = 10;
+
+    printf(ANSI_COLOR_GREEN"Registrasi Berhasil\n"ANSI_COLOR_RESET);
+    system("pause");
 }
 void MenuLogin(Akun *akun);
 
@@ -180,6 +210,8 @@ void Login(Akun *akun, const char *filename) {
                 strcpy(akun->password, passwordInput);
                 akun->point = pointDatabase;
                 valid = 1;
+                printf(ANSI_COLOR_GREEN"Login Berhasil\n"ANSI_COLOR_RESET);
+                system("pause");
                 break;
             }
         } else if (pos == 0) {
@@ -191,6 +223,8 @@ void Login(Akun *akun, const char *filename) {
                 strcpy(akun->password, passwordInput);
                 akun->point = pointDatabase;
                 valid = 1;
+                printf(ANSI_COLOR_GREEN"Login Berhasil\n"ANSI_COLOR_RESET);
+                system("pause");
                 break;
             }
         }
@@ -215,7 +249,7 @@ void MenuLogin(Akun *akun) {
 
     while (1) {
         system("cls");
-        printf(ANSI_COLOR_RED"\n===============Sesi Gratis Sudah Habis===============\n"ANSI_COLOR_RESET);
+        printf(ANSI_COLOR_RED"\n=============== Sesi Gratis Sudah Habis ===============\n"ANSI_COLOR_RESET);
         for (int i = 0; i < menu_size; i++) {
             if (i == current_selection) {
                 printf(ANSI_COLOR_YELLOW "=> %s\n" ANSI_COLOR_RESET, menu[i]);
@@ -246,6 +280,7 @@ void MenuLogin(Akun *akun) {
         system("cls");
     } else {
         printf(ANSI_COLOR_RED"Masukkan Pilihan yang benar\n"ANSI_COLOR_RESET);
+        system("pause");
     }
 }
 
@@ -282,13 +317,13 @@ int redeemVoucher(const char *filename, const char *code) {
 
     while (fscanf(fptr, "%s", dataCode) != EOF) {
         if (strcmp(dataCode, code) == 0) {
-            printf(ANSI_COLOR_GREEN"Voucher berhasil di reedem"ANSI_COLOR_RESET);
+            printf(ANSI_COLOR_GREEN"Voucher berhasil di reedem\n"ANSI_COLOR_RESET);
             valid = 1;
-            getchar();
+            system("pause");
         }
         else {
-            printf(ANSI_COLOR_RED"Kode voucher yang Anda masukkan salah"ANSI_COLOR_RESET);
-            getchar();
+            printf(ANSI_COLOR_RED"Kode voucher yang Anda masukkan salah\n"ANSI_COLOR_RESET);
+            system("pause");
         }
     }
 
@@ -344,9 +379,42 @@ void Perkalian() {
 }
 
 void updatePoint(const char *filename, Akun *akun) {
-    FILE *file = fopen(filename, "a");
+    FILE *inputFile = fopen(filename, "r");
+    if (inputFile == NULL) {
+        printf("Error: Unable to open file %s\n", filename);
+        return;
+    }
 
-    fprintf(file, "%s %s %d\n", akun->nama, akun->password, akun->point);
+    FILE *tempFile = fopen("temp.txt", "w");
+    if (tempFile == NULL) {
+        printf("Error: Unable to create temporary file\n");
+        fclose(inputFile);
+        return;
+    }
 
-    fclose(file);
+    char nama[100], password[100];
+    int point;
+    int found = 0;
+
+    while (fscanf(inputFile, "%s %s %d", nama, password, &point) != EOF) {
+        if (strcmp(nama, akun->nama) == 0) {
+            fprintf(tempFile, "%s %s %d\n", akun->nama, akun->password, akun->point);
+            found = 1;
+        } else {
+            fprintf(tempFile, "%s %s %d\n", nama, password, point);
+        }
+    }
+
+    fclose(inputFile);
+
+    if (!found) {
+        fprintf(tempFile, "%s %s %d\n", akun->nama, akun->password, akun->point);
+    }
+
+    fclose(tempFile);
+
+    remove(filename);
+
+    rename("temp.txt", filename);
 }
+

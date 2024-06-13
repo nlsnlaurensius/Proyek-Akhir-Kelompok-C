@@ -26,6 +26,7 @@ void showMenu(Akun *akun);
 
 int main() {
     Akun *akun = (Akun*)malloc(sizeof(Akun));
+    guideMenu();
     for (int i = 0; i < 3; i++) {
         konversiSuhu(i);
         system("pause");
