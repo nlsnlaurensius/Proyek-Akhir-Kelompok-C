@@ -1,2 +1,6 @@
-# Proyek-Akhir-Kelompok-C
-Konverter suhu dengan sebuah menu tambahan pengali 2 bilangan
+# Proyek-Akhir-Proglan-Kelompok-C
+Tugas:
+*Konverter suhu*
+*pengali 2 bilangan*
+
+Nama Kelompok
