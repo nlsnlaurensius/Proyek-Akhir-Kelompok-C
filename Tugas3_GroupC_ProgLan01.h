@@ -165,16 +165,37 @@ void Login(Akun *akun, const char *filename) {
     printf("Password: ");
     scanf("%s", passwordInput);
 
-    while (fscanf(fptr, "%s %s %d", namaDatabase ,passwordDatabase, &pointDatabase)!=EOF)
-    {
-        if((strcmp(namaDatabase, namaInput) == 0)&&(strcmp(passwordDatabase, passwordInput)== 0)){
-            strcpy(akun->nama,namaInput);
-            strcpy(akun->password,passwordInput);
-            akun->point = pointDatabase;
-            valid = 1;
-            break;
+
+    fseek(fptr, 0, SEEK_END);
+    long fileSize = ftell(fptr);
+    char buffer[300];  // Adjust the size as per your record size
+
+    for (long pos = fileSize - 1; pos >= 0; pos--) {
+        fseek(fptr, pos, SEEK_SET);
+        if (fgetc(fptr) == '\n' && pos != fileSize - 1) {
+            fgets(buffer, sizeof(buffer), fptr);
+            sscanf(buffer, "%s %s %d", namaDatabase, passwordDatabase, &pointDatabase);
+            if ((strcmp(namaDatabase, namaInput) == 0) && (strcmp(passwordDatabase, passwordInput) == 0)) {
+                strcpy(akun->nama, namaInput);
+                strcpy(akun->password, passwordInput);
+                akun->point = pointDatabase;
+                valid = 1;
+                break;
+            }
+        } else if (pos == 0) {
+            fseek(fptr, 0, SEEK_SET);
+            fgets(buffer, sizeof(buffer), fptr);
+            sscanf(buffer, "%s %s %d", namaDatabase, passwordDatabase, &pointDatabase);
+            if ((strcmp(namaDatabase, namaInput) == 0) && (strcmp(passwordDatabase, passwordInput) == 0)) {
+                strcpy(akun->nama, namaInput);
+                strcpy(akun->password, passwordInput);
+                akun->point = pointDatabase;
+                valid = 1;
+                break;
+            }
         }
     }
+
     fclose(fptr);
     if (valid == 0)
     {
